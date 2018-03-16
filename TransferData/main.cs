@@ -166,6 +166,32 @@ namespace TransferData
                 MessageBox.Show(msg, "提示");
             
         }
+
+        private void writeSingleData2(int Index)
+        {
+            byte[] sendbuf = new byte[16];
+            sendbuf[0] = Global.stationAddr;
+            sendbuf[1] = Global.writeCmd;
+            sendbuf[2] = (byte)((Global.offset + Global.sizeDistance * Index) / 256);
+            sendbuf[3] = (byte)((Global.offset + Global.sizeDistance * Index) % 256);
+            sendbuf[4] = 0x00;
+            sendbuf[5] = 0x04;
+
+            //双字，字间是低位在前高位在后，字内是高位在前低位在后 3412顺序
+            sendbuf[6] = (byte)((Global.procData[Index].size << 16) >> 24);
+            sendbuf[7] = (byte)((Global.procData[Index].size << 24) >> 24);
+            sendbuf[8] = (byte)(Global.procData[Index].size >> 24);
+            sendbuf[9] = (byte)((Global.procData[Index].size << 8) >> 24);
+            sendbuf[10] = (byte)((Global.procData[Index].planCount << 16) >> 24);
+            sendbuf[11] = (byte)((Global.procData[Index].planCount << 24) >> 24);
+            sendbuf[12] = (byte)(Global.procData[Index].planCount >> 24);
+            sendbuf[13] = (byte)((Global.procData[Index].planCount << 8) >> 24);
+
+            uint crc = SystemUnit.getCRC(sendbuf, 0, 14);
+            sendbuf[14] = (byte)(crc / 256);
+            sendbuf[15] = (byte)(crc % 256);
+            comm.SendControlCmd(sendbuf, sendbuf.Length);
+        }
         private void writeSingleData(int Index)
         {
             byte[] sendbuf = new byte[17];

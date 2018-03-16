@@ -1,0 +1,10 @@
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\bin\Debug\JsonServer.exe.config
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\bin\Debug\JsonServer.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\bin\Debug\JsonServer.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\obj\Debug\JsonServer.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\obj\Debug\JsonServer.Form1.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\obj\Debug\JsonServer.Properties.Resources.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\obj\Debug\JsonServer.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\obj\Debug\JsonServer.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\obj\Debug\JsonServer.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonServer\bin\Debug\Newtonsoft.Json.DLL

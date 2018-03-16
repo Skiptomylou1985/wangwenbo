@@ -17,7 +17,7 @@
     <!--写命令字 10进制-->
     <writecmd>16</writecmd>
     <!--读命令字-->
-    <readcmd>1</readcmd>
+    <readcmd>3</readcmd>
     <!--尺寸数据起始偏移地址-->
     <offset>6000</offset>
     <!--管脚数据起始偏移地址-->

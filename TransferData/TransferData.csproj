@@ -78,6 +78,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocketTool.cs" />
     <Compile Include="SystemUnit.cs" />
     <Compile Include="XMLUnit.cs" />
     <EmbeddedResource Include="FormMain.resx">

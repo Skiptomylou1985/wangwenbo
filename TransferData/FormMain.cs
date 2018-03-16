@@ -142,6 +142,7 @@ namespace TransferData
                 setFormStatus(2);
             }
             toolbarSendIndex.Text = (Global.writeIndex + 1).ToString();
+           // writeSingleData2(Global.writeIndex);
             writeSingleData(Global.writeIndex);
             timerWrite.Enabled = false;
         }

@@ -21,7 +21,7 @@ namespace TransferData
     {
         private SerialPort comm = new SerialPort();
         private int curCount = 0;
-        private byte[] curBuff = new byte[100];
+        private byte[] curBuff = new byte[500];
 
         void comm_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {            

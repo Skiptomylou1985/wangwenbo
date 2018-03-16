@@ -1,0 +1,9 @@
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\obj\Debug\JsonDemo.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\obj\Debug\JsonDemo.Properties.Resources.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\obj\Debug\JsonDemo.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\obj\Debug\JsonDemo.Form1.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\bin\Debug\JsonDemo.exe.config
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\bin\Debug\JsonDemo.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\bin\Debug\JsonDemo.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\obj\Debug\JsonDemo.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\JsonDemo\obj\Debug\JsonDemo.pdb
