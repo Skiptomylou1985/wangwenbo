@@ -13,7 +13,8 @@ namespace OptimalSaw
         public static int readIndex = 0;  //读序号
         public static DataFormat[] procData =  new DataFormat[30];  //
         public static int dataCount = 20;  //单次发送最长数据长度
-        public static bool isSendAll = true;
+        public static bool isSendAll = true;  //是否一次发完
+        public static bool isDataOver = true;  //是否超过30最大处理量
         public static byte stationAddr = 0x01; //站地址
         public static byte readCmd = 0x03;    //读数据命令号
         public static byte writeCmd = 0x10;   //写数据命令号
@@ -24,7 +25,7 @@ namespace OptimalSaw
         public static int regCount = 2;     //寄存器所占字节数
         public static int breakNum = 0;
         public static int sizeDistance = 6;
-        public static bool bLogOpen = false;
+        public static bool bLogOpen = true;
         public static int timeOut = 3;
         public static Parity parity = Parity.Even;
         public static int multiple = 1;
@@ -33,8 +34,13 @@ namespace OptimalSaw
         //public static SerialPort comm;
         public static CommHelper commHelper;
 
+        public static bool dataIsChanged = false;
+        public static bool readDataDone = true;
+        public static int nRestFlag = 5;
+        
         public static int totalOrders = 0;
         public static int workingOrders = 0;
+        public static int queueOrders = 0;
         public static int cacelOrders = 0;
         public static int terminateOrders = 0;
         public static int completeOrders = 0;
@@ -46,10 +52,12 @@ namespace OptimalSaw
         public static int workingDoneRatio = 0;
         public static int workingDoneOrders = 0;
 
-        public static int macRunStatus = 1; //设备运行状态  1 运行  0 停止
+        public static int macRunStatus = 0; //设备运行状态  1 运行  0 停止
         public static int macErrorStatus = 0; //设备故障状态  1 故障  0 无故障
         public static int macRunMode = 1;   //设备运行模式  1 远程模式  0 本地模式
         public static int macCommStatus = 1; //设备通讯状态 1正常  0 通讯故障 
+
+
        
         
     }
@@ -92,7 +100,9 @@ namespace OptimalSaw
         WRITEDONE = 1,
         WRITECONTINUE=2,
         STATUS = 3,
-        PIN = 4
+        PIN = 4,
+        READDONE = 5,
+        READCONTINUE = 6
     }
 
     public enum OrderStatus

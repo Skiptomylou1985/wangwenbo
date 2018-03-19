@@ -21,7 +21,7 @@ namespace OptimalSaw
     {
         private SerialPort comm = new SerialPort();
         private int curCount = 0;
-        private byte[] curBuff = new byte[100];
+        private byte[] curBuff = new byte[400];
 
         void comm_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {            
@@ -42,7 +42,7 @@ namespace OptimalSaw
                 curCount = 0;
                 procData(proBuff);
             }
-            if(curCount > 65)
+            if(curCount > 250)
             {
                 curCount = 0;
             }
@@ -65,7 +65,8 @@ namespace OptimalSaw
             if (buff[1] == 0x03 && Global.runMode == RunMode.READDATA)
             {
 
-                if (buff[2] == Global.dataCount * 12)
+                //if (buff[2] == Global.dataCount * 12 && !Global.readDataDone )
+                if (buff[2] == Global.dataCount * 12 )
                 {
                     for (int i = 0; i < Global.dataCount; i++)
                     {
@@ -76,28 +77,65 @@ namespace OptimalSaw
                             grosswidth == Global.procData[i].GrossWidth &&
                             done != Global.procData[i].Done)
                         {
-                            string sql = "update set done = " + done.ToString() + " where id = " + Global.procData[i].id;
+                            int undo = Global.procData[i].GrossWidth - done;
+                            string sql = "update working set done = " + done.ToString() + " ,undone = "+undo.ToString()+" where id = " + Global.procData[i].id;
                             Global.mysqlHelper.ExecuteSql(sql);
                             Global.procData[i].Done = done;
+                            Global.dataIsChanged = true;
+                            Log.WriteLog("CommPort", "Info", sql);
+
                         }
                     }
-                    SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK, (int)ReturnResult.SUCCESS, (int)DataType.WRITEDONE);
-                }
-                
+                    if (Global.readDataDone)
+                    {
+                        Log.WriteLog("CommPort", "Info", "PostMessage:READDONE");
+                        SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK, (int)ReturnResult.SUCCESS, (int)DataType.READDONE);
+                    } 
+                    else
+                    {
+                        Log.WriteLog("CommPort", "Info", "PostMessage:READCONTINUE");
+                        SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK, (int)ReturnResult.SUCCESS, (int)DataType.READCONTINUE);
+                    }
+                    
+                }else if(buff[2] ==(30- Global.dataCount) * 12 && Global.readDataDone)
+                {
+                    int count = 30 - Global.dataCount;
+                    for (int i = 0; i < count; i++)
+                    {
+                        int lenth = (buff[i * 12 + 3] << 8 | buff[12 * i + 4] | buff[12 * i + 5] << 24 | buff[12 * i + 6] << 16);
+                        int grosswidth = (buff[12 * i + 7] << 8 | buff[12 * i + 8] | buff[12 * i + 9] << 24 | buff[12 * i + 10] << 16);
+                        int done = (buff[12 * i + 11] << 8 | buff[12 * i + 12] | buff[12 * i + 13] << 24 | buff[12 * i + 14] << 16);
+                        if (lenth == Global.procData[Global.dataCount+i].Lenth &&
+                            grosswidth == Global.procData[Global.dataCount + i].GrossWidth &&
+                            done != Global.procData[Global.dataCount + i].Done)
+                        {
+                            string sql = "update workorder set done = " + done.ToString() + " where id = " + Global.procData[Global.dataCount + i].id;
+                            Global.mysqlHelper.ExecuteSql(sql);
+                            Global.procData[Global.dataCount + i].Done = done;
+                            Global.dataIsChanged = true;
+                            Log.WriteLog("CommPort", "Info", sql);
 
-//                 if(buff[2] == Global.dataCount*2)
-//                 {
-//                     for(int i =0;i< Global.dataCount; i++)
-//                     {
-//                         Global.procData[i].pin = (short)(buff[3 + 2 * i] << 8 | buff[3 + 2 * i + 1]);
-//                     }
-//                     SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK, (int)ReturnResult.SUCCESS, (int)DataType.PIN);
-//                 }
-                
-            }else if (buff[1] == 0x03 && Global.runMode == RunMode.READSTATUS && buff[2] == 4)
+                        }
+                    }
+                    SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK, (int)ReturnResult.SUCCESS, (int)DataType.READDONE);
+
+                }
+
+
+                //                 if(buff[2] == Global.dataCount*2)
+                //                 {
+                //                     for(int i =0;i< Global.dataCount; i++)
+                //                     {
+                //                         Global.procData[i].pin = (short)(buff[3 + 2 * i] << 8 | buff[3 + 2 * i + 1]);
+                //                     }
+                //                     SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK, (int)ReturnResult.SUCCESS, (int)DataType.PIN);
+                //                 }
+
+            }
+            else if (buff[1] == 0x03 && Global.runMode == RunMode.READSTATUS && buff[2] == 4)
             {
                 //buff[4] 第8位运行状态  buff[6]第3位故障状态 第7位 运行模式
-                int status = ( buff[4] << 8|  buff[6] );
+                int status = ( buff[3] << 8|  buff[6] );
                 SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READBACK,status , (int)DataType.STATUS);
 
             } else if (Global.runMode == RunMode.WRITE && buff[1] == 0x10 )

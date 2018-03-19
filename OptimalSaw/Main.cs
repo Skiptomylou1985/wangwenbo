@@ -16,21 +16,34 @@ namespace OptimalSaw
         {
             if (m.Msg == SystemUnit.WM_READBACK)
             {
-                Global.runMode = RunMode.NORMAL;
+                
                 Global.breakNum = 0;
                 timerBreak.Enabled = false;
 
                 if ((int)DataType.STATUS == (int)m.LParam)
                 {
                     int status = (int)m.WParam;
-                    Global.macRunStatus = (status&0x8000)>> 15;
-                    Global.macErrorStatus = (status & 0x04) >> 2;
-                    Global.macRunMode = (status & 0x40) >> 6;
+                    Global.macRunStatus = status >> 8;
+                    Global.macErrorStatus = (status & 0x08) >> 3;
+                    Global.macRunMode = (status & 0x80) >> 7;
+                    Global.runMode = RunMode.NORMAL;
+                    //lblWorkingShowInfo.Text = "状态值:" + status.ToString();
                     //判断设备状态
                 }
-                if ((int)ReturnResult.SUCCESS == (int)m.WParam)
+                else if ((int)ReturnResult.SUCCESS == (int)m.WParam)
                 {
-                   
+                    if ((int)DataType.READCONTINUE == (int)m.LParam)
+                    {
+                        Global.readDataDone = true;
+                        SendReadDataCmd(Global.offset + Global.dataCount * 6, 30 - Global.dataCount);
+                        timerBreak.Enabled = true;
+
+                    } 
+                    else if((int)DataType.READDONE == (int)m.LParam)
+                    {
+                        Global.runMode = RunMode.NORMAL;
+                    }
+                    
                 }
                 
                 return;
@@ -48,11 +61,13 @@ namespace OptimalSaw
                         lblWorkingShowInfo.Text = "订单发送成功！";
                         lblWorkingShowInfo.ForeColor = Color.Green;
                         ShowSendBtn(false);
+                        timerRead.Enabled = true;
                         Global.runMode = RunMode.NORMAL;
                     }
                     else if ((int)DataType.WRITECONTINUE == (int)m.LParam)
                     {
                         SendRestData();
+                        
                         return;
                     }
                     else if ((int)DataType.PIN == (int)m.LParam)
@@ -178,15 +193,15 @@ namespace OptimalSaw
             }
         }
 
-        private void flushWorkingData()
+        private void FlushWorkingData()
         {
-            string sql = "select * from workorder where status = 2 order by id asc";
+            string sql = "select * from working order by workingid asc";
             DataTable dt = Global.mysqlHelper.GetDataTable(sql);
             dgvWork.DataSource = dt;
             SetDGVWork();
         }
 
-        private void flushUndoData()
+        private void FlushUndoData()
         {
             string sql = "select * from workorder where status = 1 order by id asc";
             DataTable dt = Global.mysqlHelper.GetDataTable(sql);
@@ -197,15 +212,15 @@ namespace OptimalSaw
         {
 
         }
-        private void SendReadDataCmd()
+        private void SendReadDataCmd(int offset,int count)
         {
             byte[] sendbuf = new byte[8];
             sendbuf[0] = Global.stationAddr;
             sendbuf[1] = Global.readCmd;
-            sendbuf[2] = (byte)(Global.offset  / 256);
-            sendbuf[3] = (byte)(Global.offset  % 256);
-            sendbuf[4] = (byte)(Global.dataCount*6/256);
-            sendbuf[5] = (byte)(Global.dataCount * 6 % 256);
+            sendbuf[2] = (byte)(offset / 256);
+            sendbuf[3] = (byte)(offset % 256);
+            sendbuf[4] = (byte)(count*6/256);
+            sendbuf[5] = (byte)(count* 6% 256);
             uint crc = SystemUnit.getCRC(sendbuf, 0, 6);
             sendbuf[6] = (byte)(crc / 256);
             sendbuf[7] = (byte)(crc % 256);
@@ -285,16 +300,27 @@ namespace OptimalSaw
 
         private void InitWorkingData()
         {
-            string sql = "select * from workorder where status = 2 order by id asc";
+
+            string sql = "select * from working where status = 2 order by workingid asc";
             DataTable dt = Global.mysqlHelper.GetDataTable(sql);
-            for (int i= 0;i<dt.Rows.Count;i++ )
+            if (dt.Rows.Count > 0)
             {
-                Global.procData[i].Lenth = int.Parse(dt.Rows[i]["lenth"].ToString());
-                Global.procData[i].GrossWidth = int.Parse(dt.Rows[i]["grosswidth"].ToString());
-                Global.procData[i].id = int.Parse(dt.Rows[i]["id"].ToString());
-                Global.procData[i].Thickness = int.Parse(dt.Rows[i]["thickness"].ToString());
-                Global.procData[i].status = (int)OrderStatus.WORKING;
-                Global.procData[i].Done = int.Parse(dt.Rows[i]["done"].ToString());
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    Global.procData[i].Lenth = int.Parse(dt.Rows[i]["lenth"].ToString());
+                    Global.procData[i].GrossWidth = int.Parse(dt.Rows[i]["grosswidth"].ToString());
+                    Global.procData[i].id = int.Parse(dt.Rows[i]["id"].ToString());
+                    Global.procData[i].Thickness = int.Parse(dt.Rows[i]["thickness"].ToString());
+                    Global.procData[i].status = (int)OrderStatus.WORKING;
+                    Global.procData[i].Done = int.Parse(dt.Rows[i]["done"].ToString());
+                }
+                sql = "select * from working where status = 1 ";
+                dt = Global.mysqlHelper.GetDataTable(sql);
+                if (dt.Rows.Count > 0)
+                {
+                    Global.queueOrders = dt.Rows.Count;
+                }
+                timerRead.Enabled = true;
             }
         }
 
@@ -348,6 +374,93 @@ namespace OptimalSaw
             {
                 lblMacError.Text = "故障";
                 lblMacError.ForeColor = Color.Red;
+            }
+        }
+
+        private void sendNewOrders(int thickness)
+        {
+
+            FlushProcData();
+            Global.runMode = RunMode.WRITE;
+            string sql = "insert into working " +
+                            "(id, productorder, type, scheduledate, lenth, width, thickness, gross, done, undone," +
+                            "completedate, machinecode, worker, worth, remark, status, receivedate, grosswidth)" +
+                            "select* from workorder a where a.status = 1 and a.thickness = " + thickness.ToString();
+            Global.mysqlHelper.ExecuteSql(sql);
+            sql = "update workorder a, working b set a.status = 2 where a.id = b.id";
+            Global.mysqlHelper.ExecuteSql(sql);
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("update working set status = 2 where id in (");
+            DataTable dt = Global.mysqlHelper.GetDataTable("select * from working order by workingid asc");
+            byte[] sendbuf = new byte[400];
+            int count = dt.Rows.Count;
+            //判断订单数是否大于设备最大订单数30
+            if (count > 30)
+            {
+                Global.isDataOver = true;
+            }
+            else
+            {
+                Global.isDataOver = false;
+            }
+
+            //判断是否可以一次发完
+            Global.isSendAll = true;
+            if (count > Global.dataCount)
+            {
+                Global.isSendAll = false;
+                count = Global.dataCount;
+            }
+            sendbuf[0] = Global.stationAddr;
+            sendbuf[1] = Global.writeCmd;
+            sendbuf[2] = (byte)(Global.offset / 256);
+            sendbuf[3] = (byte)(Global.offset % 256);
+            sendbuf[4] = (byte)(Global.dataCount * 6 / 256);
+            sendbuf[5] = (byte)(Global.dataCount * 6 % 256);
+            sendbuf[6] = (byte)(Global.dataCount * 12);
+
+            for (int i = 0; i < count; i++)
+            {
+                WorkOrder order = new WorkOrder(dt.Rows[i]);
+                sendbuf[7 + 12 * i] = (byte)((order.Length << 16) >> 24);
+                sendbuf[7 + 12 * i + 1] = (byte)((order.Length << 24) >> 24);
+                sendbuf[7 + 12 * i + 2] = (byte)(order.Length >> 24);
+                sendbuf[7 + 12 * i + 3] = (byte)((order.Length << 8) >> 24);
+
+                sendbuf[7 + 12 * i + 4] = (byte)((order.GrossWidth << 16) >> 24);
+                sendbuf[7 + 12 * i + 5] = (byte)((order.GrossWidth << 24) >> 24);
+                sendbuf[7 + 12 * i + 6] = (byte)(order.GrossWidth >> 24);
+                sendbuf[7 + 12 * i + 7] = (byte)((order.GrossWidth << 8) >> 24);
+
+                sendbuf[7 + 12 * i + 8] = (byte)((order.Done << 16) >> 24);
+                sendbuf[7 + 12 * i + 9] = (byte)((order.Done << 24) >> 24);
+                sendbuf[7 + 12 * i + 10] = (byte)(order.Done >> 24);
+                sendbuf[7 + 12 * i + 11] = (byte)((order.Done << 8) >> 24);
+
+                sb.Append(order.id.ToString() + ",");
+                Global.procData[i].id = order.id;
+                Global.procData[i].Lenth = order.Length;
+                Global.procData[i].Thickness = order.Thickness;
+                Global.procData[i].GrossWidth = order.GrossWidth;
+                Global.procData[i].status = (int)OrderStatus.WORKING;
+            }
+            uint crc = SystemUnit.getCRC(sendbuf, 0, Global.dataCount * 12 + 7);
+            sendbuf[Global.dataCount * 12 + 7] = (byte)(crc / 256);
+            sendbuf[Global.dataCount * 12 + 8] = (byte)(crc % 256);
+            Global.commHelper.SendControlCmd(sendbuf, Global.dataCount * 12 + 9);
+            timerBreak.Enabled = true;
+            sb.Append("0)");
+            Global.mysqlHelper.ExecuteSql(sb.ToString());
+            lblWorkingShowInfo.Text = "订单发送中……";
+            lblWorkingShowInfo.ForeColor = Color.Green;
+        }
+
+        private void FlushProcData()
+        {
+            for (int i = 0; i < 30; i++)
+            {
+                Global.procData[i].flush();
             }
         }
     }

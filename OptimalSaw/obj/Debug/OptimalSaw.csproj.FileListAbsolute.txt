@@ -17,3 +17,13 @@ C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\OptimalSaw\bin\De
 C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\OptimalSaw\bin\Debug\OptimalSaw.pdb
 C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\OptimalSaw\bin\Debug\stdole.dll
 C:\Users\Administrator\Desktop\C#\王文博软件\TransferData\OptimalSaw\obj\Debug\OptimalSaw.FormQuery.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\bin\Debug\OptimalSaw.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\bin\Debug\OptimalSaw.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\bin\Debug\stdole.dll
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.csprojResolveAssemblyReference.cache
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.FormMain.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.FormQuery.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.Properties.Resources.resources
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.csproj.GenerateResource.Cache
