@@ -9,9 +9,10 @@ namespace OptimalSaw
     class Global
     {
         public static RunMode runMode = RunMode.NORMAL;  //当前运行模式
-        public static int writeIndex = 0;  //写序号
-        public static int readIndex = 0;  //读序号
+       // public static int writeIndex = 0;  //写序号
+       // public static int readIndex = 0;  //读序号
         public static DataFormat[] procData =  new DataFormat[30];  //
+        public static int socketPort = 6700;  //网络监听端口
         public static int dataCount = 20;  //单次发送最长数据长度
         public static bool isSendAll = true;  //是否一次发完
         public static bool isDataOver = true;  //是否超过30最大处理量
@@ -19,8 +20,9 @@ namespace OptimalSaw
         public static byte readCmd = 0x03;    //读数据命令号
         public static byte writeCmd = 0x10;   //写数据命令号
         public static int offset = 6000;      //尺寸和数量数据起始偏移地址
-        public static int runStatusOffset = 27;
+        public static int runStatusOffset = 27; //运行状态查询偏移地址
         public static int pinOffset = 6800;   //管脚数据起始偏移地址
+        public static int alertOffset = 32;   //提示补发订单命令偏移地址
         public static string defaultPath = Application.StartupPath + "\\default.xlsx";   //默认数据路径及文件名
         public static int regCount = 2;     //寄存器所占字节数
         public static int breakNum = 0;
@@ -28,7 +30,7 @@ namespace OptimalSaw
         public static bool bLogOpen = true;
         public static int timeOut = 3;
         public static Parity parity = Parity.Even;
-        public static int multiple = 1;
+        //public static int multiple = 1;
         public static DBInfo dbInfo;
         public static MysqlHelper mysqlHelper;
         //public static SerialPort comm;

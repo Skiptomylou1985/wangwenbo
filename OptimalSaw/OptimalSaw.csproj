@@ -62,6 +62,12 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormParam.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormParam.Designer.cs">
+      <DependentUpon>FormParam.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormQuery.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,9 @@
     <Compile Include="tool\XmlHelper.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormParam.resx">
+      <DependentUpon>FormParam.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormQuery.resx">
       <DependentUpon>FormQuery.cs</DependentUpon>

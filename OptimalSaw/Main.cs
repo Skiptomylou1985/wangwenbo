@@ -83,6 +83,33 @@ namespace OptimalSaw
         }
 
 
+        private void InitMainParam()
+        {
+            try
+            {
+                Global.stationAddr = byte.Parse(IniHelper.GetINIValue(iniPath, "plc", "address"));
+                Global.offset = int.Parse(IniHelper.GetINIValue(iniPath, "plc", "offset"));
+                Global.pinOffset = int.Parse(IniHelper.GetINIValue(iniPath, "plc", "pinoffset"));
+                Global.runStatusOffset = int.Parse(IniHelper.GetINIValue(iniPath, "plc", "statusoffset"));
+                Global.writeCmd = byte.Parse(IniHelper.GetINIValue(iniPath, "plc", "writecmd"));
+                Global.readCmd = byte.Parse(IniHelper.GetINIValue(iniPath, "plc", "readcmd"));
+                Global.alertOffset = int.Parse(IniHelper.GetINIValue(iniPath, "plc", "alertoffset"));
+                Global.nRestFlag = int.Parse(IniHelper.GetINIValue(iniPath, "main", "timeout"));
+                Global.socketPort = int.Parse(IniHelper.GetINIValue(iniPath, "main", "socketport"));
+                if (1 == int.Parse(IniHelper.GetINIValue(iniPath, "main", "logopen")))
+                    Global.bLogOpen = true;
+                else
+                    Global.bLogOpen = false;
+                
+                Global.timeOut = int.Parse(IniHelper.GetINIValue(iniPath, "main", "timeout"));
+                Global.dataCount = int.Parse(IniHelper.GetINIValue(iniPath, "main", "datacount"));
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("获取参数失败！");
+            }
+        }
+
         //初始化数据库参数及连接
         private bool InitDatabase()
         {

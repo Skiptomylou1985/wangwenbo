@@ -172,7 +172,7 @@ namespace OptimalSaw
                     if (count > 0)
                     {
                        string info = Encoding.UTF8.GetString(buff,0,count);
-                        WorkOrder order = JsonHelper.DeserializeJsonToObject<WorkOrder>(info);
+                       WorkOrder order = JsonHelper.DeserializeJsonToObject<WorkOrder>(info);
                         //Global.orderList.Add(order);
                     }
                 }

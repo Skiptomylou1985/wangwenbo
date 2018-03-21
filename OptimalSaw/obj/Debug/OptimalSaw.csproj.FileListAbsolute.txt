@@ -27,3 +27,4 @@ C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.FormQuery.resources
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.Properties.Resources.resources
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.csproj.GenerateResource.Cache
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\OptimalSaw\obj\Debug\OptimalSaw.FormParam.resources

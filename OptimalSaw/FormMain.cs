@@ -20,6 +20,7 @@ namespace OptimalSaw
 
             InitDatabase();
             InitComm();
+            InitMainParam();
             InitWorkingData();
             ShowSendBtn(false);
             btnSendRest.Visible = false;
