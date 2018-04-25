@@ -94,13 +94,8 @@ namespace OptimalSaw
                 Global.writeCmd = byte.Parse(IniHelper.GetINIValue(iniPath, "plc", "writecmd"));
                 Global.readCmd = byte.Parse(IniHelper.GetINIValue(iniPath, "plc", "readcmd"));
                 Global.alertOffset = int.Parse(IniHelper.GetINIValue(iniPath, "plc", "alertoffset"));
-                Global.nRestFlag = int.Parse(IniHelper.GetINIValue(iniPath, "main", "timeout"));
-                Global.socketPort = int.Parse(IniHelper.GetINIValue(iniPath, "main", "socketport"));
-                if (1 == int.Parse(IniHelper.GetINIValue(iniPath, "main", "logopen")))
-                    Global.bLogOpen = true;
-                else
-                    Global.bLogOpen = false;
-                
+                Global.nRestFlag = int.Parse(IniHelper.GetINIValue(iniPath, "main", "restflag"));
+                Global.logOpen = int.Parse(IniHelper.GetINIValue(iniPath, "main", "logopen"));
                 Global.timeOut = int.Parse(IniHelper.GetINIValue(iniPath, "main", "timeout"));
                 Global.dataCount = int.Parse(IniHelper.GetINIValue(iniPath, "main", "datacount"));
             }
@@ -135,13 +130,13 @@ namespace OptimalSaw
         //初始化串口参数及连接串口
         private bool InitComm()
         {
-            SerialPort comm = new SerialPort();
-            comm.PortName = IniHelper.GetINIValue(iniPath, "comm", "port");
-            comm.BaudRate = int.Parse(IniHelper.GetINIValue(iniPath, "comm", "bps"));
-            comm.Parity = (Parity)Enum.Parse(typeof(Parity), IniHelper.GetINIValue(iniPath, "comm", "parity"));
-            comm.RtsEnable = false;
+            //SerialPort comm = new SerialPort();
+            Global.comm.PortName = IniHelper.GetINIValue(iniPath, "comm", "port");
+            Global.comm.BaudRate = int.Parse(IniHelper.GetINIValue(iniPath, "comm", "bps"));
+            Global.comm.Parity = (Parity)Enum.Parse(typeof(Parity), IniHelper.GetINIValue(iniPath, "comm", "parity"));
+            Global.comm.RtsEnable = false;
             Global.commHelper = new CommHelper();
-            if (Global.commHelper.comOpen(comm))
+            if (Global.commHelper.comOpen(Global.comm))
             {
                 return true;
             }
@@ -150,6 +145,13 @@ namespace OptimalSaw
                 MessageBox.Show("串口打开失败！");
                 return false;
             }
+        }
+
+        private bool InitSocket()
+        {
+            Global.socketPort = int.Parse(IniHelper.GetINIValue(iniPath, "main", "socketport"));
+            Global.socketHelper = new SocketHelper("127.0.0.1", Global.socketPort);
+            return(Global.socketHelper.Run());
         }
 
         private void FlushComboThickness()
@@ -361,15 +363,15 @@ namespace OptimalSaw
 
         private void FlushMacStatus()
         {
-            if (Global.macCommStatus == 0)
-            {
-                lblCommStatus.Text = "通讯异常";
-                lblCommStatus.ForeColor = Color.Red;
-            }
-            else
+            if (Global.commHelper.comIsOpen())
             {
                 lblCommStatus.Text = "通讯正常";
                 lblCommStatus.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblCommStatus.Text = "通讯异常";
+                lblCommStatus.ForeColor = Color.Red;
             }
             if (Global.macRunStatus == 0)
             {

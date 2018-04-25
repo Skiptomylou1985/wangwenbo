@@ -12,7 +12,7 @@ namespace TransferData
         public static int writeIndex = 0;  //写序号
         public static int readIndex = 0;  //读序号
         public static DataFormat[] procData = null;  //
-        public static int dataCount = 30;  //数据长度
+        public static int dataCount = 40;  //数据长度
         public static byte stationAddr = 0x01; //站地址
         public static byte readCmd = 0x03;    //读数据命令号
         public static byte writeCmd = 0x10;   //写数据命令号

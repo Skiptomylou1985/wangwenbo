@@ -51,6 +51,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.dgvOrder = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lblGrossWidth = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.lblRemark = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.lblWorth = new System.Windows.Forms.Label();
@@ -163,6 +165,7 @@
             this.btnExport.TabIndex = 19;
             this.btnExport.Text = "导出";
             this.btnExport.UseVisualStyleBackColor = true;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnQuery
             // 
@@ -172,6 +175,7 @@
             this.btnQuery.TabIndex = 18;
             this.btnQuery.Text = "查询";
             this.btnQuery.UseVisualStyleBackColor = true;
+            this.btnQuery.Click += new System.EventHandler(this.btnQuery_Click);
             // 
             // label9
             // 
@@ -307,10 +311,13 @@
             this.dgvOrder.RowTemplate.Height = 23;
             this.dgvOrder.Size = new System.Drawing.Size(760, 257);
             this.dgvOrder.TabIndex = 1;
+            this.dgvOrder.SelectionChanged += new System.EventHandler(this.dgvOrder_SelectionChanged);
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox1.Controls.Add(this.lblGrossWidth);
+            this.groupBox1.Controls.Add(this.label10);
             this.groupBox1.Controls.Add(this.lblRemark);
             this.groupBox1.Controls.Add(this.label31);
             this.groupBox1.Controls.Add(this.lblWorth);
@@ -349,6 +356,23 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "工单详情";
+            // 
+            // lblGrossWidth
+            // 
+            this.lblGrossWidth.AutoSize = true;
+            this.lblGrossWidth.Location = new System.Drawing.Point(95, 83);
+            this.lblGrossWidth.Name = "lblGrossWidth";
+            this.lblGrossWidth.Size = new System.Drawing.Size(0, 12);
+            this.lblGrossWidth.TabIndex = 33;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(35, 83);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 32;
+            this.label10.Text = "总宽度：";
             // 
             // lblRemark
             // 
@@ -506,7 +530,7 @@
             // lblGross
             // 
             this.lblGross.AutoSize = true;
-            this.lblGross.Location = new System.Drawing.Point(95, 83);
+            this.lblGross.Location = new System.Drawing.Point(664, 110);
             this.lblGross.Name = "lblGross";
             this.lblGross.Size = new System.Drawing.Size(0, 12);
             this.lblGross.TabIndex = 13;
@@ -514,11 +538,11 @@
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(48, 83);
+            this.label23.Location = new System.Drawing.Point(617, 110);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(41, 12);
             this.label23.TabIndex = 12;
-            this.label23.Text = "总量：";
+            this.label23.Text = "数量：";
             // 
             // lblReceive
             // 
@@ -701,5 +725,7 @@
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.Label lblWorker;
         private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.Label lblGrossWidth;
+        private System.Windows.Forms.Label label10;
     }
 }

@@ -20,6 +20,7 @@ namespace OptimalSaw
 
             InitDatabase();
             InitComm();
+            InitSocket();
             InitMainParam();
             InitWorkingData();
             ShowSendBtn(false);
@@ -64,10 +65,6 @@ namespace OptimalSaw
             sendNewOrders(int.Parse(comboThickness.Text));
         }
 
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void btnInsert_Click(object sender, EventArgs e)
         {
@@ -142,6 +139,19 @@ namespace OptimalSaw
 
         private void timerStatus_Tick(object sender, EventArgs e)
         {
+            lblComm.Text = Global.comm.PortName;
+            lblSocketPort.Text = Global.socketPort.ToString();
+            if (0 == Global.socketHelper.GetStatus())
+            {
+                lblSocketStatus.Text = "正常";
+                lblSocketStatus.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblSocketStatus.Text = "故障";
+                lblSocketStatus.ForeColor = Color.Red;
+            }
+                
             //return;
             //订单总数
             string sql = "select status ,count(*) as num from workorder GROUP BY status";
@@ -178,6 +188,7 @@ namespace OptimalSaw
             lblWorkingOrders.Text = Global.workingOrders.ToString();
             lblQueueOrders.Text = Global.queueOrders.ToString();
             lblWorkingThickness.Text = Global.procData[0].Thickness.ToString();
+            
 
             Global.workingGrossWidth = 0;
             Global.workingDone = 0;
@@ -279,7 +290,8 @@ namespace OptimalSaw
 
         private void btnParam_Click(object sender, EventArgs e)
         {
-
+            FormParam FP = new FormParam();
+            FP.ShowDialog();
         }
 
         private void btnSendRest_Click(object sender, EventArgs e)
@@ -298,9 +310,10 @@ namespace OptimalSaw
 
         private void btnTest_Click_1(object sender, EventArgs e)
         {
-            string sql = "update workorder set done = 123 where id = 3";
-            Global.mysqlHelper.ExecuteSql(sql);
+            //string sql = "update workorder set done = 123 where id = 3";
+            //Global.mysqlHelper.ExecuteSql(sql);
             //SendReadDataCmd(Global.offset, Global.dataCount);
+            Global.socketHelper.Close();
         }
     }
 }

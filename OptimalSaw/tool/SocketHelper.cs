@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Sockets;
 using System.Threading;
 using System.Net;
+using System.Data;
 
 namespace OptimalSaw
 {
@@ -21,6 +22,7 @@ namespace OptimalSaw
         private TcpListener listener = null;
         private bool isRun = false;
         private int maxClientNum = 1;
+        private byte[] sendbuff = new byte[2048];
 
         public SocketHelper(string serverIP, int serverPort)
         {
@@ -166,14 +168,63 @@ namespace OptimalSaw
             {
                  try
                  {
-                    byte[] buff = new byte[1024];
+                    byte[] buff = new byte[2048];
                     
                     int count = cSocket.Receive(buff);
-                    if (count > 0)
+                    if (count > 5)
                     {
-                       string info = Encoding.UTF8.GetString(buff,0,count);
-                       WorkOrder order = JsonHelper.DeserializeJsonToObject<WorkOrder>(info);
-                        //Global.orderList.Add(order);
+                        if (buff[0] == 0xff && buff[1] == 0xff && buff[2] == 0x01 &&
+                        buff[count - 1] == 0xEE && buff[count - 2] == 0xEE)
+                        {
+                            Response res = new Response();
+                            string info = Encoding.UTF8.GetString(buff, 3, count - 5);
+                            WorkOrder order = JsonHelper.DeserializeJsonToObject<WorkOrder>(info);
+                            if (!bOrderExist(order.ProductOrder))
+                            {
+                                if (bCheckOrder(order))
+                                {
+                                    order.Status = 1;
+                                    order.ReceiveDate = DateTime.Now;
+                                    order.GrossWidth = order.Width * order.Gross;
+                                    order.Undo = order.GrossWidth;
+                                    order.Done = 0;
+                                    Global.mysqlHelper.ExecuteSql(order.InsertSQL());
+
+                                    res.Result = true;
+                                    res.Cmd = 1;
+                                    res.ErrorCode = 0;
+                                    res.Remark = "发送成功！";
+                                } 
+                                else
+                                {
+                                    res.Result = false;
+                                    res.Cmd = 1;
+                                    res.ErrorCode = -1;
+                                    res.Remark = "发送错误！";
+                                }
+
+
+                            }
+                            else
+                            {
+                                res.Result = false;
+                                res.Cmd = 1;
+                                res.ErrorCode = -2;
+                                res.Remark = "该编号订单已存在！";
+
+                            }
+                            
+                            
+                            string resp = JsonHelper.SerializeObject(res);
+                            byte[] data = Encoding.UTF8.GetBytes(resp);
+                            sendbuff[0] = 0xff;
+                            sendbuff[1] = 0xff;
+                            sendbuff[2] = 0x10;
+                            Buffer.BlockCopy(data, 0, sendbuff, 3, data.Length);
+                            sendbuff[data.Length + 3] = 0xEE;
+                            sendbuff[data.Length + 4] = 0xEE;
+                            cSocket.Send(sendbuff, data.Length + 5, SocketFlags.None);
+                        }
                     }
                 }
                 catch (System.Exception ex)
@@ -197,5 +248,26 @@ namespace OptimalSaw
             set { _port = value; }
         }
         private int _port = 6789;
+
+        private bool bOrderExist(string orderCode)
+        {
+            string sql = "select * from workorder where productorder = '" + orderCode + "'";
+            DataTable dt = Global.mysqlHelper.GetDataTable(sql);
+            if (dt == null)
+            {
+                return false;
+            }
+            else if(dt.Rows.Count == 0 )
+            {
+                return false;
+            }
+            return true;
+            
+        }
+
+        private bool bCheckOrder(WorkOrder order)
+        {
+            return true;
+        }
     }
 }

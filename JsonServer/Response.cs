@@ -18,9 +18,12 @@ namespace JsonServer
         public int Cmd { get; set; }
 
         /*
-         * ErrorCode:常见错误类型，返回结果Result为fasle时生效
-         * 0: 未知错误
-         */
+        * ErrorCode:常见错误类型，返回结果Result为fasle时生效
+        * 0: 未知错误
+        * -1:数据格式错误
+        * -2：数据重复
+        * -3：参数异常
+        */
         public int ErrorCode { get; set; }
 
         //备注

@@ -27,14 +27,16 @@ namespace OptimalSaw
         public static int regCount = 2;     //寄存器所占字节数
         public static int breakNum = 0;
         public static int sizeDistance = 6;
-        public static bool bLogOpen = true;
+        public static int logOpen = 1;    //是否开启日志，0不开启 1开启
         public static int timeOut = 3;
         public static Parity parity = Parity.Even;
+        public static SerialPort comm = new SerialPort();
         //public static int multiple = 1;
         public static DBInfo dbInfo;
         public static MysqlHelper mysqlHelper;
         //public static SerialPort comm;
         public static CommHelper commHelper;
+        public static SocketHelper socketHelper;
 
         public static bool dataIsChanged = false;
         public static bool readDataDone = true;

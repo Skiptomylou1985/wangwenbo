@@ -6,8 +6,7 @@ namespace JsonDemo
 {
     public class WorkOrder
     {
-
-        public string text { get; set; }
+        
         //生产指令单
         public string ProductOrder { get; set; }
         //材质、类型

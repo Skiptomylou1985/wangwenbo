@@ -35,17 +35,13 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.dgvWork = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnTest = new System.Windows.Forms.Button();
             this.btnNew = new System.Windows.Forms.Button();
             this.lblWorkingShowInfo = new System.Windows.Forms.Label();
-            this.btnInsert = new System.Windows.Forms.Button();
             this.btnParam = new System.Windows.Forms.Button();
             this.btnQuery = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.lblShow = new System.Windows.Forms.Label();
-            this.lblCommStatus = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.lblMacRunMode = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.lblMacError = new System.Windows.Forms.Label();
@@ -53,6 +49,8 @@
             this.lblMacRunStatus = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.panel10 = new System.Windows.Forms.Panel();
+            this.lblQueueOrders = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.lblWorkingDoneOrders = new System.Windows.Forms.Label();
@@ -83,11 +81,20 @@
             this.btnSend = new System.Windows.Forms.Button();
             this.radioBtnWorking = new System.Windows.Forms.RadioButton();
             this.radioBtnUndo = new System.Windows.Forms.RadioButton();
+            this.panel7 = new System.Windows.Forms.Panel();
+            this.lblSocketStatus = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lblCommStatus = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.lblSocketPort = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.lblComm = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.panel8 = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
             this.timerBreak = new System.Windows.Forms.Timer(this.components);
             this.timerRead = new System.Windows.Forms.Timer(this.components);
             this.timerStatus = new System.Windows.Forms.Timer(this.components);
-            this.lblQueueOrders = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -101,29 +108,34 @@
             this.panel9.SuspendLayout();
             this.panel12.SuspendLayout();
             this.panel4.SuspendLayout();
+            this.panel7.SuspendLayout();
+            this.panel8.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 6);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel10, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.panel11, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.panel12, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel10, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.panel11, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.panel12, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.panel7, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 6;
+            this.tableLayoutPanel1.RowCount = 7;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(989, 718);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(989, 702);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel3
@@ -131,9 +143,9 @@
             this.panel3.BackColor = System.Drawing.Color.Khaki;
             this.panel3.Controls.Add(this.tableLayoutPanel2);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(3, 223);
+            this.panel3.Location = new System.Drawing.Point(3, 268);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(983, 492);
+            this.panel3.Size = new System.Drawing.Size(983, 431);
             this.panel3.TabIndex = 2;
             // 
             // tableLayoutPanel2
@@ -146,10 +158,10 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 504F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 504F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 504F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(983, 492);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 448F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 448F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 448F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(983, 431);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // dgvWork
@@ -159,16 +171,14 @@
             this.dgvWork.Location = new System.Drawing.Point(3, 3);
             this.dgvWork.Name = "dgvWork";
             this.dgvWork.RowTemplate.Height = 23;
-            this.dgvWork.Size = new System.Drawing.Size(977, 486);
+            this.dgvWork.Size = new System.Drawing.Size(977, 425);
             this.dgvWork.TabIndex = 0;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Info;
-            this.panel1.Controls.Add(this.btnTest);
             this.panel1.Controls.Add(this.btnNew);
             this.panel1.Controls.Add(this.lblWorkingShowInfo);
-            this.panel1.Controls.Add(this.btnInsert);
             this.panel1.Controls.Add(this.btnParam);
             this.panel1.Controls.Add(this.btnQuery);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -176,17 +186,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(983, 34);
             this.panel1.TabIndex = 0;
-            // 
-            // btnTest
-            // 
-            this.btnTest.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnTest.Location = new System.Drawing.Point(300, 0);
-            this.btnTest.Name = "btnTest";
-            this.btnTest.Size = new System.Drawing.Size(75, 34);
-            this.btnTest.TabIndex = 48;
-            this.btnTest.Text = "测试";
-            this.btnTest.UseVisualStyleBackColor = true;
-            this.btnTest.Click += new System.EventHandler(this.btnTest_Click_1);
             // 
             // btnNew
             // 
@@ -205,20 +204,8 @@
             this.lblWorkingShowInfo.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.lblWorkingShowInfo.Location = new System.Drawing.Point(389, 7);
             this.lblWorkingShowInfo.Name = "lblWorkingShowInfo";
-            this.lblWorkingShowInfo.Size = new System.Drawing.Size(74, 21);
+            this.lblWorkingShowInfo.Size = new System.Drawing.Size(0, 21);
             this.lblWorkingShowInfo.TabIndex = 47;
-            this.lblWorkingShowInfo.Text = "提示信息";
-            // 
-            // btnInsert
-            // 
-            this.btnInsert.Font = new System.Drawing.Font("微软雅黑", 10.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.btnInsert.Location = new System.Drawing.Point(225, 0);
-            this.btnInsert.Name = "btnInsert";
-            this.btnInsert.Size = new System.Drawing.Size(75, 34);
-            this.btnInsert.TabIndex = 3;
-            this.btnInsert.Text = "插入数据";
-            this.btnInsert.UseVisualStyleBackColor = true;
-            this.btnInsert.Click += new System.EventHandler(this.btnInsert_Click);
             // 
             // btnParam
             // 
@@ -246,8 +233,6 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.panel2.Controls.Add(this.panel5);
-            this.panel2.Controls.Add(this.lblCommStatus);
-            this.panel2.Controls.Add(this.label12);
             this.panel2.Controls.Add(this.lblMacRunMode);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.lblMacError);
@@ -255,7 +240,7 @@
             this.panel2.Controls.Add(this.lblMacRunStatus);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 43);
+            this.panel2.Location = new System.Drawing.Point(3, 88);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(983, 39);
             this.panel2.TabIndex = 1;
@@ -279,26 +264,6 @@
             this.lblShow.Size = new System.Drawing.Size(85, 19);
             this.lblShow.TabIndex = 3;
             this.lblShow.Text = "设备状态";
-            // 
-            // lblCommStatus
-            // 
-            this.lblCommStatus.AutoSize = true;
-            this.lblCommStatus.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblCommStatus.Location = new System.Drawing.Point(816, 10);
-            this.lblCommStatus.Name = "lblCommStatus";
-            this.lblCommStatus.Size = new System.Drawing.Size(42, 21);
-            this.lblCommStatus.TabIndex = 19;
-            this.lblCommStatus.Text = "正常";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label12.Location = new System.Drawing.Point(736, 10);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(78, 21);
-            this.label12.TabIndex = 18;
-            this.label12.Text = "通讯状态:";
             // 
             // lblMacRunMode
             // 
@@ -375,10 +340,30 @@
             this.panel10.Controls.Add(this.label10);
             this.panel10.Controls.Add(this.label3);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel10.Location = new System.Drawing.Point(3, 88);
+            this.panel10.Location = new System.Drawing.Point(3, 133);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(983, 39);
             this.panel10.TabIndex = 3;
+            // 
+            // lblQueueOrders
+            // 
+            this.lblQueueOrders.AutoSize = true;
+            this.lblQueueOrders.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblQueueOrders.Location = new System.Drawing.Point(947, 12);
+            this.lblQueueOrders.Name = "lblQueueOrders";
+            this.lblQueueOrders.Size = new System.Drawing.Size(19, 21);
+            this.lblQueueOrders.TabIndex = 49;
+            this.lblQueueOrders.Text = "0";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label15.Location = new System.Drawing.Point(858, 11);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(94, 21);
+            this.label15.TabIndex = 48;
+            this.label15.Text = "排队订单数:";
             // 
             // panel6
             // 
@@ -492,7 +477,7 @@
             this.panel11.Controls.Add(this.label16);
             this.panel11.Controls.Add(this.lblWorkingDoneWidth);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel11.Location = new System.Drawing.Point(3, 133);
+            this.panel11.Location = new System.Drawing.Point(3, 178);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(983, 39);
             this.panel11.TabIndex = 4;
@@ -607,7 +592,7 @@
             this.panel12.Controls.Add(this.radioBtnWorking);
             this.panel12.Controls.Add(this.radioBtnUndo);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel12.Location = new System.Drawing.Point(3, 178);
+            this.panel12.Location = new System.Drawing.Point(3, 223);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(983, 39);
             this.panel12.TabIndex = 5;
@@ -701,6 +686,123 @@
             this.radioBtnUndo.UseVisualStyleBackColor = true;
             this.radioBtnUndo.CheckedChanged += new System.EventHandler(this.radioBtnUndo_CheckedChanged);
             // 
+            // panel7
+            // 
+            this.panel7.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.panel7.Controls.Add(this.lblSocketStatus);
+            this.panel7.Controls.Add(this.label25);
+            this.panel7.Controls.Add(this.lblCommStatus);
+            this.panel7.Controls.Add(this.label23);
+            this.panel7.Controls.Add(this.lblSocketPort);
+            this.panel7.Controls.Add(this.label21);
+            this.panel7.Controls.Add(this.lblComm);
+            this.panel7.Controls.Add(this.label19);
+            this.panel7.Controls.Add(this.panel8);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel7.Location = new System.Drawing.Point(3, 43);
+            this.panel7.Name = "panel7";
+            this.panel7.Size = new System.Drawing.Size(983, 39);
+            this.panel7.TabIndex = 6;
+            // 
+            // lblSocketStatus
+            // 
+            this.lblSocketStatus.AutoSize = true;
+            this.lblSocketStatus.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblSocketStatus.Location = new System.Drawing.Point(816, 10);
+            this.lblSocketStatus.Name = "lblSocketStatus";
+            this.lblSocketStatus.Size = new System.Drawing.Size(42, 21);
+            this.lblSocketStatus.TabIndex = 29;
+            this.lblSocketStatus.Text = "正常";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label25.Location = new System.Drawing.Point(703, 10);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(110, 21);
+            this.label25.TabIndex = 28;
+            this.label25.Text = "网络服务状态:";
+            // 
+            // lblCommStatus
+            // 
+            this.lblCommStatus.AutoSize = true;
+            this.lblCommStatus.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblCommStatus.Location = new System.Drawing.Point(432, 10);
+            this.lblCommStatus.Name = "lblCommStatus";
+            this.lblCommStatus.Size = new System.Drawing.Size(42, 21);
+            this.lblCommStatus.TabIndex = 27;
+            this.lblCommStatus.Text = "打开";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label23.Location = new System.Drawing.Point(320, 10);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(110, 21);
+            this.label23.TabIndex = 26;
+            this.label23.Text = "串口通讯状态:";
+            // 
+            // lblSocketPort
+            // 
+            this.lblSocketPort.AutoSize = true;
+            this.lblSocketPort.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblSocketPort.Location = new System.Drawing.Point(629, 10);
+            this.lblSocketPort.Name = "lblSocketPort";
+            this.lblSocketPort.Size = new System.Drawing.Size(46, 21);
+            this.lblSocketPort.TabIndex = 25;
+            this.lblSocketPort.Text = "6700";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label21.Location = new System.Drawing.Point(516, 10);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(110, 21);
+            this.label21.TabIndex = 24;
+            this.label21.Text = "网络服务端口:";
+            // 
+            // lblComm
+            // 
+            this.lblComm.AutoSize = true;
+            this.lblComm.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.lblComm.Location = new System.Drawing.Point(248, 10);
+            this.lblComm.Name = "lblComm";
+            this.lblComm.Size = new System.Drawing.Size(59, 21);
+            this.lblComm.TabIndex = 23;
+            this.lblComm.Text = "COM1";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label19.Location = new System.Drawing.Point(188, 10);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(62, 21);
+            this.label19.TabIndex = 22;
+            this.label19.Text = "串口号:";
+            // 
+            // panel8
+            // 
+            this.panel8.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.panel8.Controls.Add(this.label13);
+            this.panel8.Location = new System.Drawing.Point(2, 2);
+            this.panel8.Name = "panel8";
+            this.panel8.Size = new System.Drawing.Size(121, 36);
+            this.panel8.TabIndex = 21;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("宋体", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label13.Location = new System.Drawing.Point(18, 9);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(85, 19);
+            this.label13.TabIndex = 3;
+            this.label13.Text = "通讯状态";
+            // 
             // timerBreak
             // 
             this.timerBreak.Tick += new System.EventHandler(this.timerBreak_Tick);
@@ -715,31 +817,11 @@
             this.timerStatus.Interval = 2000;
             this.timerStatus.Tick += new System.EventHandler(this.timerStatus_Tick);
             // 
-            // lblQueueOrders
-            // 
-            this.lblQueueOrders.AutoSize = true;
-            this.lblQueueOrders.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.lblQueueOrders.Location = new System.Drawing.Point(947, 12);
-            this.lblQueueOrders.Name = "lblQueueOrders";
-            this.lblQueueOrders.Size = new System.Drawing.Size(19, 21);
-            this.lblQueueOrders.TabIndex = 49;
-            this.lblQueueOrders.Text = "0";
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label15.Location = new System.Drawing.Point(858, 11);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(94, 21);
-            this.label15.TabIndex = 48;
-            this.label15.Text = "排队订单数:";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 718);
+            this.ClientSize = new System.Drawing.Size(989, 702);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -769,6 +851,10 @@
             this.panel12.PerformLayout();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
+            this.panel8.ResumeLayout(false);
+            this.panel8.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -788,11 +874,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label lblMacRunMode;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label lblCommStatus;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.DataGridView dgvWork;
-        private System.Windows.Forms.Button btnInsert;
         private System.Windows.Forms.Timer timerBreak;
         private System.Windows.Forms.Timer timerRead;
         private System.Windows.Forms.Timer timerStatus;
@@ -830,9 +913,19 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button btnSendRest;
-        private System.Windows.Forms.Button btnTest;
         private System.Windows.Forms.Label lblQueueOrders;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Panel panel7;
+        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lblSocketPort;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label lblComm;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label lblSocketStatus;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lblCommStatus;
+        private System.Windows.Forms.Label label23;
     }
 }
 

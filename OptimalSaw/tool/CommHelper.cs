@@ -28,7 +28,7 @@ namespace OptimalSaw
             int n = comm.BytesToRead;
             byte[] buff = new byte[n];
             comm.Read(buff, 0, n);
-            if (Global.bLogOpen)
+            if (Global.logOpen == 1)
                 Log.WriteLog("CommPort", "INFO", "【comm_DataReceived】 接收数据:" + SystemUnit.ToHexString(buff));
             
             Buffer.BlockCopy(buff, 0, curBuff, curCount, n);
@@ -255,7 +255,7 @@ namespace OptimalSaw
             if (comm.IsOpen)
             {
                 comm.Write(buf, 0, len);
-                if(Global.bLogOpen)
+                if(Global.logOpen == 1)
                 Log.WriteLog("CommPort", "INFO", "【SendControlCmd】 发送数据:" + SystemUnit.ToHexString(buf));
                 return true;
             }

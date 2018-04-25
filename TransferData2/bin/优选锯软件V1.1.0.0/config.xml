@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<transferdata>
+  <!--本地数据库配置-->
+  <normal>
+    <!--串口号-->
+    <comport>COM2</comport>
+    <!--串口波特率-->
+    <combps>19200</combps>
+    <!--串口校验方式 0不校验 1 奇校验 2 偶校验 3 奇偶校验位保留为1 4 奇偶校验位保留为0 -->
+    <comparity>2</comparity>
+    <!--串口延时等待时长 单位：毫秒-->
+    <comtimeout>50</comtimeout>
+    <!--从机地址-->
+    <stationaddr>1</stationaddr>
+    <!--寄存器所占字节长度-->
+    <regcount>2</regcount>
+    <!--写命令字 10进制-->
+    <writecmd>16</writecmd>
+    <!--读命令字-->
+    <readcmd>3</readcmd>
+    <!--尺寸数据起始偏移地址-->
+    <sizeoffset>6000</sizeoffset>
+    <!--计划数据起始偏移地址-->
+    <planoffset>6200</planoffset>
+    <!--管脚数据起始偏移地址-->
+    <pinoffset>6800</pinoffset>
+    <!--默认数据存储文件-->
+    <defaultfile>default.xlsx</defaultfile>
+    <!--是否开启信息日志 0 关闭 1 开启-->
+    <logopen>1</logopen>
+    <!--无响应等待时间 单位：秒-->
+    <timeout>3</timeout>
+  </normal>
+  <data>
+    <!--处理数据个数-->
+    <datacount>60</datacount>
+    <!--尺寸数据字节数-->
+    <sizelenth>4</sizelenth>
+    <!--计划产量数据字节数-->
+    <planlenth>4</planlenth>
+    <!--管脚数据字节数-->
+    <pinlenth>2</pinlenth>
+    <!--管脚数据字节数-->
+    <sizedistance>2</sizedistance>
+  </data>
+</transferdata>
