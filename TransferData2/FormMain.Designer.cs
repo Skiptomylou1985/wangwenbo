@@ -41,17 +41,16 @@
             this.toolbarReadIndex = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolbarReadIndex1223 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolImportFile = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboUnit = new System.Windows.Forms.ComboBox();
             this.textMulti = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnRead = new System.Windows.Forms.Button();
             this.btnExport = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.comboPort = new System.Windows.Forms.ComboBox();
-            this.comboBPS = new System.Windows.Forms.ComboBox();
             this.btnWrite = new System.Windows.Forms.Button();
             this.btnOpenClosePort = new System.Windows.Forms.Button();
             this.btnImport = new System.Windows.Forms.Button();
@@ -62,12 +61,15 @@
             this.timerWrite = new System.Windows.Forms.Timer(this.components);
             this.timerRead = new System.Windows.Forms.Timer(this.components);
             this.timerBreak = new System.Windows.Forms.Timer(this.components);
+            this.lblImportFile = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV1)).BeginInit();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -80,8 +82,7 @@
             this.toolStripStatusLabel5,
             this.toolbarReadIndex,
             this.toolbarReadIndex1223,
-            this.toolStripStatusLabel1,
-            this.toolImportFile});
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 760);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -142,38 +143,31 @@
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(28, 17);
             this.toolStripStatusLabel1.Text = "     ";
             // 
-            // toolImportFile
-            // 
-            this.toolImportFile.Name = "toolImportFile";
-            this.toolImportFile.Size = new System.Drawing.Size(116, 17);
-            this.toolImportFile.Text = "数据来源：默认表格";
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1264, 760);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.SystemColors.Info;
-            this.panel1.Controls.Add(this.textMulti);
-            this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.btnRead);
             this.panel1.Controls.Add(this.btnExport);
-            this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.comboPort);
-            this.panel1.Controls.Add(this.comboBPS);
             this.panel1.Controls.Add(this.btnWrite);
             this.panel1.Controls.Add(this.btnOpenClosePort);
             this.panel1.Controls.Add(this.btnImport);
@@ -184,22 +178,49 @@
             this.panel1.Size = new System.Drawing.Size(1258, 34);
             this.panel1.TabIndex = 0;
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(140, 12);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(107, 12);
+            this.label4.TabIndex = 13;
+            this.label4.Text = "当前尺寸计量单位:";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
+            // 
+            // comboUnit
+            // 
+            this.comboUnit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboUnit.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboUnit.ForeColor = System.Drawing.Color.Black;
+            this.comboUnit.FormattingEnabled = true;
+            this.comboUnit.Items.AddRange(new object[] {
+            "毫米",
+            "厘米",
+            "英寸"});
+            this.comboUnit.Location = new System.Drawing.Point(247, 8);
+            this.comboUnit.Name = "comboUnit";
+            this.comboUnit.Size = new System.Drawing.Size(78, 20);
+            this.comboUnit.TabIndex = 12;
+            this.comboUnit.SelectedIndexChanged += new System.EventHandler(this.comboUnit_SelectedIndexChanged);
+            // 
             // textMulti
             // 
-            this.textMulti.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.textMulti.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.textMulti.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.textMulti.ForeColor = System.Drawing.Color.Green;
-            this.textMulti.Location = new System.Drawing.Point(403, 3);
+            this.textMulti.Location = new System.Drawing.Point(46, 4);
             this.textMulti.Name = "textMulti";
             this.textMulti.Size = new System.Drawing.Size(55, 26);
             this.textMulti.TabIndex = 11;
             this.textMulti.Text = "1";
+            this.textMulti.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.textMulti.TextChanged += new System.EventHandler(this.textMulti_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(362, 13);
+            this.label3.Location = new System.Drawing.Point(5, 11);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 12);
             this.label3.TabIndex = 10;
@@ -221,23 +242,14 @@
             this.btnExport.Name = "btnExport";
             this.btnExport.Size = new System.Drawing.Size(65, 26);
             this.btnExport.TabIndex = 8;
-            this.btnExport.Text = "导出表格";
+            this.btnExport.Text = "导出配方";
             this.btnExport.UseVisualStyleBackColor = true;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(593, 13);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(47, 12);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "波特率:";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(482, 13);
+            this.label1.Location = new System.Drawing.Point(384, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(47, 12);
             this.label1.TabIndex = 6;
@@ -269,27 +281,10 @@
             "COM18",
             "COM19",
             "COM20"});
-            this.comboPort.Location = new System.Drawing.Point(531, 9);
+            this.comboPort.Location = new System.Drawing.Point(433, 7);
             this.comboPort.Name = "comboPort";
             this.comboPort.Size = new System.Drawing.Size(60, 20);
             this.comboPort.TabIndex = 5;
-            // 
-            // comboBPS
-            // 
-            this.comboBPS.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBPS.FormattingEnabled = true;
-            this.comboBPS.Items.AddRange(new object[] {
-            "2400",
-            "4800",
-            "9600",
-            "19200",
-            "38400",
-            "57600",
-            "115200"});
-            this.comboBPS.Location = new System.Drawing.Point(641, 8);
-            this.comboBPS.Name = "comboBPS";
-            this.comboBPS.Size = new System.Drawing.Size(60, 20);
-            this.comboBPS.TabIndex = 4;
             // 
             // btnWrite
             // 
@@ -303,7 +298,7 @@
             // 
             // btnOpenClosePort
             // 
-            this.btnOpenClosePort.Location = new System.Drawing.Point(706, 5);
+            this.btnOpenClosePort.Location = new System.Drawing.Point(509, 3);
             this.btnOpenClosePort.Name = "btnOpenClosePort";
             this.btnOpenClosePort.Size = new System.Drawing.Size(65, 26);
             this.btnOpenClosePort.TabIndex = 2;
@@ -317,7 +312,7 @@
             this.btnImport.Name = "btnImport";
             this.btnImport.Size = new System.Drawing.Size(65, 26);
             this.btnImport.TabIndex = 1;
-            this.btnImport.Text = "导入表格";
+            this.btnImport.Text = "导入配方";
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
@@ -339,11 +334,11 @@
             this.tableLayoutPanel2.Controls.Add(this.DGV2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.DGV1, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 43);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 83);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(1258, 714);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1258, 674);
             this.tableLayoutPanel2.TabIndex = 1;
             // 
             // DGV2
@@ -365,7 +360,7 @@
             this.DGV2.Name = "DGV2";
             this.DGV2.RowHeadersVisible = false;
             this.DGV2.RowTemplate.Height = 23;
-            this.DGV2.Size = new System.Drawing.Size(629, 714);
+            this.DGV2.Size = new System.Drawing.Size(629, 674);
             this.DGV2.TabIndex = 1;
             this.DGV2.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV2_CellValueChanged);
             // 
@@ -388,8 +383,9 @@
             this.DGV1.Name = "DGV1";
             this.DGV1.RowHeadersVisible = false;
             this.DGV1.RowTemplate.Height = 23;
-            this.DGV1.Size = new System.Drawing.Size(629, 714);
+            this.DGV1.Size = new System.Drawing.Size(629, 674);
             this.DGV1.TabIndex = 0;
+            this.DGV1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DGV1_CellValueChanged);
             // 
             // timerWrite
             // 
@@ -403,6 +399,29 @@
             // 
             this.timerBreak.Tick += new System.EventHandler(this.timerBreak_Tick);
             // 
+            // lblImportFile
+            // 
+            this.lblImportFile.AutoSize = true;
+            this.lblImportFile.Location = new System.Drawing.Point(384, 11);
+            this.lblImportFile.Name = "lblImportFile";
+            this.lblImportFile.Size = new System.Drawing.Size(137, 12);
+            this.lblImportFile.TabIndex = 14;
+            this.lblImportFile.Text = "当前配方名称：默认配方";
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.panel2.Controls.Add(this.textMulti);
+            this.panel2.Controls.Add(this.label3);
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.comboUnit);
+            this.panel2.Controls.Add(this.lblImportFile);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 43);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1258, 34);
+            this.panel2.TabIndex = 2;
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -414,8 +433,9 @@
             this.MaximizeBox = false;
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "优选锯MJD344配方管理软件 V1.1.0.0                                              Copyright@烟" +
-    "台展扬木工机械有限公司";
+            this.Text = "配方管理软件 V1.1.0.0                                                                  " +
+    "                                                                             Cop" +
+    "yright@深圳市新群力机械有限公司";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -424,6 +444,8 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DGV2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.DGV1)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -440,10 +462,8 @@
         private System.Windows.Forms.DataGridView DGV1;
         private System.Windows.Forms.Button btnWrite;
         private System.Windows.Forms.Button btnOpenClosePort;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox comboPort;
-        private System.Windows.Forms.ComboBox comboBPS;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnRead;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel2;
@@ -459,7 +479,10 @@
         private System.Windows.Forms.TextBox textMulti;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
-        private System.Windows.Forms.ToolStripStatusLabel toolImportFile;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboUnit;
+        private System.Windows.Forms.Label lblImportFile;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 

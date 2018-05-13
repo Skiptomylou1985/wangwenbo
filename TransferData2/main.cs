@@ -26,45 +26,28 @@ namespace TransferData
             {
                 if (Global.runMode != RunMode.READSIZE)
                     return;
-                if ((int)ReturnResult.SUCCESS == (int)m.WParam)
+                if ((int)ReturnResult.SUCCESS == (int)m.WParam && (int)DataType.SIZE == (int)m.LParam)
                 {
                     Global.breakNum = 0;
-                    if ((int)DataType.SIZE == (int)m.LParam)
-                        Global.readIndex++;
-
-                }
-                if (Global.readIndex == Global.dataCount)
-                {
-                    Global.readIndex = 0;
                     Global.runMode = RunMode.READPLAN;
-                    readSinglePlanData(Global.readIndex);
-                    return;
+                    timerRead.Enabled = true;
                 }
-                timerRead.Enabled = true;
                 return;
+
             }
             if (m.Msg == SystemUnit.WM_READPLANBACK)
             {
                 if (Global.runMode != RunMode.READPLAN)
                     return;
-                if ((int)ReturnResult.SUCCESS == (int)m.WParam)
+                if ((int)ReturnResult.SUCCESS == (int)m.WParam && (int)DataType.PLAN == (int)m.LParam)
                 {
                     Global.breakNum = 0;
-                    if ((int)DataType.PLAN == (int)m.LParam)
-                        Global.readIndex++;
-
-                }
-                if (Global.readIndex == Global.dataCount)
-                {
                     Global.runMode = RunMode.NORMAL;
-                    Global.readIndex = 0;
-                    toolbarReadIndex.Text = "0";
                     showInfo("数据读取完成", false, true);
+                    timerBreak.Enabled = false;
                     setFormStatus(1);
                     writeProcDataToDGV();
-                    return;
                 }
-                timerRead.Enabled = true;
                 return;
             }
             if (m.Msg == SystemUnit.WM_WRITESIZEBACK)
@@ -74,16 +57,17 @@ namespace TransferData
                 if((int)ReturnResult.SUCCESS == (int)m.WParam)
                 {
                     Global.breakNum = 0;
-                    if ((int)DataType.SIZE == (int)m.LParam)
-                        Global.writeIndex++;
-                }
-                if (Global.writeIndex == Global.dataCount)
-                {
                     Global.runMode = RunMode.WRITEPLAN;
-                    Global.writeIndex = 0;
-                    writeSinglePlanData(Global.writeIndex);
-                    return;
+//                     if ((int)DataType.SIZE == (int)m.LParam)
+//                         Global.writeIndex++;
                 }
+//                 if (Global.writeIndex == Global.dataCount)
+//                 {
+//                     Global.runMode = RunMode.WRITEPLAN;
+//                     Global.writeIndex = 0;
+//                     writeSinglePlanData(Global.writeIndex);
+//                     return;
+//                 }
                 timerWrite.Enabled = true;
                 return;
             }
@@ -94,18 +78,25 @@ namespace TransferData
                 if ((int)ReturnResult.SUCCESS == (int)m.WParam)
                 {
                     Global.breakNum = 0;
-                    if ((int)DataType.PLAN == (int)m.LParam)
-                        Global.writeIndex++;
-                }
-                if (Global.writeIndex == Global.dataCount)
-                {
                     Global.runMode = RunMode.NORMAL;
-                    Global.writeIndex = 0;
-                    toolbarSendIndex.Text = "0";
                     showInfo("数据发送完成", false, true);
+                    timerBreak.Enabled = false;
                     setFormStatus(1);
                     return;
+                    
+//                     if ((int)DataType.PLAN == (int)m.LParam)
+//                         Global.writeIndex++;
                 }
+//                 if (Global.writeIndex == Global.dataCount)
+//                 {
+//                     Global.runMode = RunMode.NORMAL;
+//                     Global.writeIndex = 0;
+//                     toolbarSendIndex.Text = "0";
+//                     showInfo("数据发送完成", false, true);
+//                     timerBreak.Enabled = false;
+//                     setFormStatus(1);
+//                     return;
+//                 }
                 timerWrite.Enabled = true;
                 return;
             }
@@ -128,8 +119,9 @@ namespace TransferData
             DGV2.DataSource = dts[1];
             setDGV(DGV1);
             setDGV(DGV2);
-            toolImportFile.Text = "数据来源：默认表格";
-            toolImportFile.ForeColor = toolbarReadIndex.ForeColor;
+            lblImportFile.Text = "数据来源：默认表格";
+            lblImportFile.ForeColor = toolbarReadIndex.ForeColor;
+            comboUnit.SelectedIndex = Global.unit;
         }
         private void getParamFromXML()
         {
@@ -156,7 +148,13 @@ namespace TransferData
                 Global.timeOut = int.Parse(XMLUnit.XmlGetValue(Global.xmlPath, "transferdata", "normal", "timeout"));
                 Global.dataCount = int.Parse(XMLUnit.XmlGetValue(Global.xmlPath, "transferdata", "data", "datacount"));
                 Global.sizeDistance = int.Parse(XMLUnit.XmlGetValue(Global.xmlPath, "transferdata", "data", "sizedistance"));
-               
+                Global.unit = int.Parse(XMLUnit.XmlGetValue(Global.xmlPath, "transferdata", "data", "unit"));
+                Global.accuracy = double.Parse(XMLUnit.XmlGetValue(Global.xmlPath, "transferdata", "data", "accuracy"));
+                for (int i=0;i<Global.convFactor.Length;i++)
+                {
+                    Global.convFactor[i] = Global.convFactor[i] / Global.accuracy;
+                }
+
                 showInfo("初始化配置文件成功", false,true);
             }
             catch (Exception ex)
@@ -167,7 +165,6 @@ namespace TransferData
             
             Global.procData = new DataFormat[Global.dataCount];
             comboPort.Text = Global.comPort;
-            comboBPS.Text = Global.comBPS.ToString();
         }
         private bool exportData(string path)
         {
@@ -222,6 +219,57 @@ namespace TransferData
             comm.SendControlCmd(sendbuf, sendbuf.Length);
         }
 
+        private void WriteAllSizeData()
+        {
+            byte[] sendbuf = new byte[4*Global.dataCount+9];
+            sendbuf[0] = Global.stationAddr;
+            sendbuf[1] = Global.writeCmd;
+            sendbuf[2] = (byte)((Global.sizeOffset ) / 256);
+            sendbuf[3] = (byte)((Global.sizeOffset ) % 256);
+            sendbuf[4] = 0x00;
+            sendbuf[5] = (byte)(Global.dataCount*2);
+            sendbuf[6] = (byte)(Global.dataCount*4);
+            //双字，字间是低位在前高位在后，字内是高位在前低位在后 3412顺序
+            for (int i=0;i<Global.dataCount;i++)
+            {
+                sendbuf[7+i*4] = (byte)((Global.procData[i].size << 16) >> 24);
+                sendbuf[8 + i * 4] = (byte)((Global.procData[i].size << 24) >> 24);
+                sendbuf[9 + i * 4] = (byte)(Global.procData[i].size >> 24);
+                sendbuf[10 + i * 4] = (byte)((Global.procData[i].size << 8) >> 24);
+
+            }
+            uint crc = SystemUnit.getCRC(sendbuf, 0, 4 * Global.dataCount + 7);
+            sendbuf[4 * Global.dataCount + 7] = (byte)(crc / 256);
+            sendbuf[4 * Global.dataCount + 8] = (byte)(crc % 256);
+            comm.SendControlCmd(sendbuf, sendbuf.Length);
+
+        }
+
+        private void WriteAllPlanData()
+        {
+            byte[] sendbuf = new byte[4 * Global.dataCount + 9];
+            sendbuf[0] = Global.stationAddr;
+            sendbuf[1] = Global.writeCmd;
+            sendbuf[2] = (byte)((Global.planOffset) / 256);
+            sendbuf[3] = (byte)((Global.planOffset) % 256);
+            sendbuf[4] = 0x00;
+            sendbuf[5] = (byte)(Global.dataCount*2);
+            sendbuf[6] = (byte)(Global.dataCount * 4);
+            //双字，字间是低位在前高位在后，字内是高位在前低位在后 3412顺序
+            for (int i = 0; i < Global.dataCount; i++)
+            {
+                sendbuf[7 + i * 4] = (byte)((Global.procData[i].planCount << 16) >> 24);
+                sendbuf[8 + i * 4] = (byte)((Global.procData[i].planCount << 24) >> 24);
+                sendbuf[9 + i * 4] = (byte)(Global.procData[i].planCount >> 24);
+                sendbuf[10 + i * 4] = (byte)((Global.procData[i].planCount << 8) >> 24);
+
+            }
+            uint crc = SystemUnit.getCRC(sendbuf, 0, 4 * Global.dataCount + 7);
+            sendbuf[4 * Global.dataCount + 7] = (byte)(crc / 256);
+            sendbuf[4 * Global.dataCount + 8] = (byte)(crc % 256);
+            comm.SendControlCmd(sendbuf, sendbuf.Length);
+
+        }
         private void writeSinglePlanData(int Index)
         {
             byte[] sendbuf = new byte[13];
@@ -245,6 +293,35 @@ namespace TransferData
         }
 
 
+        private void ReadAllSizeData()
+        {
+            byte[] sendbuf = new byte[8];
+            sendbuf[0] = Global.stationAddr;
+            sendbuf[1] = Global.readCmd;
+            sendbuf[2] = (byte)((Global.sizeOffset ) / 256);
+            sendbuf[3] = (byte)((Global.sizeOffset ) % 256);
+            sendbuf[4] = 0x00;
+            sendbuf[5] = (byte)(Global.dataCount*2);
+            uint crc = SystemUnit.getCRC(sendbuf, 0, 6);
+            sendbuf[6] = (byte)(crc / 256);
+            sendbuf[7] = (byte)(crc % 256);
+            comm.SendControlCmd(sendbuf, 8);
+        }
+
+        private void ReadAllPlanData()
+        {
+            byte[] sendbuf = new byte[8];
+            sendbuf[0] = Global.stationAddr;
+            sendbuf[1] = Global.readCmd;
+            sendbuf[2] = (byte)((Global.planOffset) / 256);
+            sendbuf[3] = (byte)((Global.planOffset) % 256);
+            sendbuf[4] = 0x00;
+            sendbuf[5] = (byte)(Global.dataCount * 2);
+            uint crc = SystemUnit.getCRC(sendbuf, 0, 6);
+            sendbuf[6] = (byte)(crc / 256);
+            sendbuf[7] = (byte)(crc % 256);
+            comm.SendControlCmd(sendbuf, 8);
+        }
         private void readSingleSizeData(int Index)
         {
             byte[] sendbuf = new byte[8];
@@ -253,7 +330,7 @@ namespace TransferData
             sendbuf[2] = (byte)((Global.sizeOffset + Global.sizeDistance * Index) / 256);
             sendbuf[3] = (byte)((Global.sizeOffset + Global.sizeDistance * Index) % 256);
             sendbuf[4] = 0x00;
-            sendbuf[5] = 4;
+            sendbuf[5] = 2;
             uint crc = SystemUnit.getCRC(sendbuf, 0, 6);
             sendbuf[6] = (byte)(crc / 256);
             sendbuf[7] = (byte)(crc % 256);
@@ -273,6 +350,8 @@ namespace TransferData
             sendbuf[7] = (byte)(crc % 256);
             comm.SendControlCmd(sendbuf, 8);
         }
+
+
 
         private void writePinData()
         {
@@ -316,13 +395,13 @@ namespace TransferData
         {
             for (int i = 0; i < DGV1.RowCount; i++)
             {
-                Global.procData[i].size = int.Parse(DGV1[1, i].Value.ToString())*10;
+                Global.procData[i].size = (int)(double.Parse(DGV1[1, i].Value.ToString())*Global.convFactor[Global.unit]);
                 Global.procData[i].planCount = int.Parse(DGV1[2, i].Value.ToString())*Global.multiple;
                 //Global.procData[i].pin = short.Parse(DGV1[3, i].Value.ToString());
             }
             for (int i = 0; i < DGV2.RowCount; i++)
             {
-                Global.procData[i + DGV1.RowCount].size = int.Parse(DGV2[1, i].Value.ToString())*10;
+                Global.procData[i + DGV1.RowCount].size = (int)(double.Parse(DGV2[1, i].Value.ToString())*Global.convFactor[Global.unit]);
                 Global.procData[i + DGV1.RowCount].planCount = int.Parse(DGV2[2, i].Value.ToString()) * Global.multiple;
                 //Global.procData[i + DGV1.RowCount].pin = short.Parse(DGV2[3, i].Value.ToString());
             }
@@ -332,13 +411,15 @@ namespace TransferData
         {
             for (int i = 0; i < (Global.dataCount / 2+Global.dataCount%2); i++)
             {
-                DGV1[1, i].Value = Global.procData[i].size/10;
+                double vale = Global.procData[i].size / Global.convFactor[Global.unit];
+                DGV1[1, i].Value = vale;
                 DGV1[2, i].Value = Global.procData[i].planCount;
                // DGV1[3, i].Value = Global.procData[i].pin;
             }
             for (int i = 0; i < (Global.dataCount + 1) / 2; i++)
             {
-                DGV2[1, i].Value = Global.procData[i + Global.dataCount / 2].size/10;
+                double vale = Global.procData[i + Global.dataCount / 2].size / Global.convFactor[Global.unit];
+                DGV2[1, i].Value = vale;
                 DGV2[2, i].Value = Global.procData[i + Global.dataCount / 2].planCount;
                 //DGV2[3, i].Value = Global.procData[i + Global.dataCount / 2].pin;
             }
@@ -349,7 +430,7 @@ namespace TransferData
         {
             dgv.Columns[0].ReadOnly = true;
             dgv.Columns[0].HeaderText = "序号";
-            dgv.Columns[1].HeaderText = "尺寸(mm)";
+            dgv.Columns[1].HeaderText = "尺寸";
             dgv.Columns[2].HeaderText = "计划数量";
             dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             dgv.AllowUserToAddRows = false;
@@ -371,7 +452,6 @@ namespace TransferData
                 case 0:
 
                     comboPort.Enabled = true;
-                    comboBPS.Enabled = true;
                     btnOpenClosePort.Enabled = true;
                     btnOpenClosePort.Text = "打开串口";
                     btnRead.Enabled = false;
@@ -382,7 +462,6 @@ namespace TransferData
                     break;
                 case 1:
                     comboPort.Enabled = false;
-                    comboBPS.Enabled = false;
                     btnOpenClosePort.Enabled = true;
                     btnOpenClosePort.Text = "关闭串口";
                     btnRead.Enabled = true;
@@ -393,7 +472,6 @@ namespace TransferData
                     break;
                 case 2:
                     comboPort.Enabled = false;
-                    comboBPS.Enabled = false;
                     btnRead.Enabled = false;
                     btnWrite.Enabled = false;
                     btnImport.Enabled = false;
@@ -403,7 +481,6 @@ namespace TransferData
                     break;
                 case 3:
                     comboPort.Enabled = true;
-                    comboBPS.Enabled = true;
                     btnRead.Enabled = true;
                     btnWrite.Enabled = true;
                     btnImport.Enabled = true;

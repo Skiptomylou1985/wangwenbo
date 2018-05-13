@@ -37,12 +37,12 @@ namespace TransferData
         {
            if(btnOpenClosePort.Text == "打开串口")
             {
-                if (comm.comOpen(comboPort.Text, int.Parse(comboBPS.Text), false))
+                if (comm.comOpen(comboPort.Text, Global.comBPS, false))
                 {
                     Global.comPort = comboPort.Text;
-                    Global.comBPS = int.Parse(comboBPS.Text);
+                    //Global.comBPS = int.Parse(comboBPS.Text);
                     XMLUnit.XMLSetValue(Global.xmlPath, "transferdata", "normal", "comport", comboPort.Text);
-                    XMLUnit.XMLSetValue(Global.xmlPath, "transferdata", "normal", "combps", comboBPS.Text);
+                   // XMLUnit.XMLSetValue(Global.xmlPath, "transferdata", "normal", "combps", comboBPS.Text);
                     setFormStatus(1);
                     showInfo("串口打开成功", false,true);
                 }
@@ -106,8 +106,9 @@ namespace TransferData
             setDGV(DGV2);
             
             showInfo("导入数据成功", true,true);
-            toolImportFile.Text = "数据来源：" + folder.SafeFileName;
-            toolImportFile.ForeColor = toolbarReadIndex.ForeColor;
+            lblImportFile.Text = "配方来源：" + folder.FileName;
+            lblImportFile.ForeColor = toolbarReadIndex.ForeColor;
+            //lblImportFilePath.Text = "配方路径:"+folder.FileName;
         }
        
         private void btnExport_Click(object sender, EventArgs e)
@@ -130,6 +131,7 @@ namespace TransferData
        
         private void timerWrite_Tick(object sender, EventArgs e)
         {
+            timerWrite.Enabled = false;
             if (Global.writeIndex == 0 && Global.runMode == RunMode.NORMAL)
             {
                 for (int i = 0; i < Global.dataCount; i++)
@@ -144,21 +146,22 @@ namespace TransferData
 
             if (Global.runMode == RunMode.WRITESIZE)
             {
-               // toolbarSendIndex.Text = "尺寸" + (Global.readIndex + 1).ToString();
-                writeSingleSizeData(Global.readIndex);
+                WriteAllSizeData();
+               // writeSingleSizeData(Global.writeIndex);
             }
             else if (Global.runMode == RunMode.WRITEPLAN)
             {
-                //toolbarSendIndex.Text = "数量" + (Global.readIndex + 1).ToString();
-                writeSinglePlanData(Global.readIndex);
+                WriteAllPlanData();
+                //writeSinglePlanData(Global.writeIndex);
             }
-            toolbarSendIndex.Text = (Global.readIndex + 1).ToString();
-            timerWrite.Enabled = false;
+            //toolbarSendIndex.Text = (Global.writeIndex + 1).ToString();
+           
         }
 
         private void timerRead_Tick(object sender, EventArgs e)
         {
-            if(Global.readIndex == 0 && Global.runMode == RunMode.NORMAL)
+            timerRead.Enabled = false;
+            if (Global.readIndex == 0 && Global.runMode == RunMode.NORMAL)
             {
                 for (int i = 0; i < Global.dataCount; i++)
                 {
@@ -171,16 +174,14 @@ namespace TransferData
 
             if (Global.runMode == RunMode.READSIZE)
             {
-                //toolbarReadIndex.Text = "尺寸" + (Global.readIndex + 1).ToString();
-                readSingleSizeData(Global.readIndex);
+                ReadAllSizeData();
             } 
             else if (Global.runMode == RunMode.READPLAN)
             {
-                //toolbarReadIndex.Text = "数量" + (Global.readIndex + 1).ToString();
-                readSinglePlanData(Global.readIndex);
+                ReadAllPlanData();
             }
-            toolbarReadIndex.Text = (Global.readIndex + 1).ToString();
-            timerRead.Enabled = false;
+           // toolbarReadIndex.Text = (Global.readIndex + 1).ToString();
+            
         }
 
         private void timerBreak_Tick(object sender, EventArgs e)
@@ -233,15 +234,42 @@ namespace TransferData
         private void DGV2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             
-            int index = toolImportFile.Text.IndexOf("已被编辑");
+            int index = lblImportFile.Text.IndexOf("已被编辑");
             if (index > -1)
                 return;
             else
             {
-                toolImportFile.Text += "-已被编辑";
-                toolImportFile.ForeColor = Color.Blue;
+                lblImportFile.Text += "-已被编辑";
+                lblImportFile.ForeColor = Color.Blue;
             }
         }
-                
+
+        private void comboUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Global.unit = comboUnit.SelectedIndex;
+            XMLUnit.XMLSetValue(Global.xmlPath, "transferdata", "data", "unit", Global.unit.ToString());
+        }
+
+        private void btnTest_Click(object sender, EventArgs e)
+        {
+            WriteAllSizeData();
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DGV1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = lblImportFile.Text.IndexOf("已被编辑");
+            if (index > -1)
+                return;
+            else
+            {
+                lblImportFile.Text += "-已被编辑";
+                lblImportFile.ForeColor = Color.Blue;
+            }
+        }
     }
 }

@@ -42,7 +42,7 @@ namespace TransferData
                 curCount = 0;
                 procData(proBuff);
             }
-            if(curCount > 65)
+            if(curCount > 256)
             {
                 curCount = 0;
             }
@@ -62,16 +62,22 @@ namespace TransferData
                
 
             //读数据模式下回复
-            if (buff[1] == 0x03 && buff[2] == 4)
+            if (buff[1] == 0x03 && buff[2] == Global.sizeDistance)
             {
 
                 if(Global.runMode == RunMode.READSIZE)
                 {
-                    Global.procData[Global.readIndex].size = (buff[3] << 8 | buff[4]  | buff[5] << 24 | buff[6] << 16);
+                    for (int i = 0; i < Global.dataCount; i++)
+                    {
+                        Global.procData[i].size = (buff[3+4*i] << 8 | buff[4 + 4 * i] | buff[5 + 4 * i] << 24 | buff[6 + 4 * i] << 16);
+                    }
                     SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READSIZEBACK, (int)ReturnResult.SUCCESS, (int)DataType.SIZE);
                 }else if (Global.runMode == RunMode.READPLAN)
                 {
-                    Global.procData[Global.readIndex].planCount = (buff[3] << 8 | buff[4] | buff[5] << 24 | buff[6] << 16);
+                    for (int i = 0; i < Global.dataCount; i++)
+                    {
+                        Global.procData[i].planCount = (buff[3 + 4 * i] << 8 | buff[4 + 4 * i] | buff[5 + 4 * i] << 24 | buff[6 + 4 * i] << 16);
+                    }
                     SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_READPLANBACK, (int)ReturnResult.SUCCESS, (int)DataType.PLAN);
                 }
 //                 if(buff[2] == Global.dataCount*2)
@@ -90,12 +96,12 @@ namespace TransferData
             if (Global.runMode == RunMode.WRITESIZE && buff[1] == 0x10 )
             {
                 int offset = buff[2] << 8 | buff[3];
-                if(offset == Global.sizeOffset + Global.sizeDistance*Global.writeIndex)
+                if (offset == Global.sizeOffset)
                     SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_WRITESIZEBACK, (int)ReturnResult.SUCCESS, (int)DataType.SIZE);
             }else if (Global.runMode == RunMode.WRITEPLAN && buff[1] == 0x10)
             {
                 int offset = buff[2] << 8 | buff[3];
-                if (offset == Global.planOffset + Global.sizeDistance * Global.writeIndex)
+                if (offset == Global.planOffset )
                     SystemUnit.PostMessage(SystemUnit.HWND_BROADCAST, SystemUnit.WM_WRITEPLANBACK, (int)ReturnResult.SUCCESS, (int)DataType.PLAN);
             }
             

@@ -17,7 +17,7 @@ namespace TransferData
         public static byte readCmd = 0x03;    //读数据命令号
         public static byte writeCmd = 0x10;   //写数据命令号
         public static int sizeOffset = 6000;      //尺寸数据起始偏移地址
-        public static int planOffset = 6000;      //计划数量数据起始偏移地址
+        public static int planOffset = 6200;      //计划数量数据起始偏移地址
         public static int pinOffset = 6800;   //管脚数据起始偏移地址
         public static string defaultPath = Application.StartupPath + "\\default.xlsx";   //默认数据路径及文件名
         public static string xmlPath = Application.StartupPath + "\\config.xml";
@@ -26,11 +26,14 @@ namespace TransferData
         public static int comTimeout = 100;
         public static int regCount = 2;     //寄存器所占字节数
         public static int breakNum = 0;
-        public static int sizeDistance = 6;
+        public static int sizeDistance = 2;
         public static bool bLogOpen = false;
         public static int timeOut = 3;
         public static Parity parity = Parity.Even;
         public static int multiple = 1;
+        public static double[] convFactor = { 1.0,10.0,25.4};
+        public static int unit = 0;
+        public static double accuracy = 1;
     }
     struct DataFormat
     {
@@ -53,8 +56,8 @@ namespace TransferData
         NORMAL = 0,
         WRITESIZE = 1,
         READSIZE = 2,
-        WRITEPLAN = 1,
-        READPLAN = 2
+        WRITEPLAN = 3,
+        READPLAN = 4
     }
 
     public enum ReturnResult

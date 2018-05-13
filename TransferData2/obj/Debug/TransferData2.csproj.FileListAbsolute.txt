@@ -1,9 +1,9 @@
-C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\bin\Debug\优选锯MJD344配方管理软件.exe
-C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\bin\Debug\优选锯MJD344配方管理软件.pdb
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\bin\Debug\stdole.dll
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\TransferData2.csprojResolveAssemblyReference.cache
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\TransferData.FormMain.resources
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\TransferData.Properties.Resources.resources
 C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\TransferData2.csproj.GenerateResource.Cache
-C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\优选锯MJD344配方管理软件.exe
-C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\优选锯MJD344配方管理软件.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\bin\Debug\配方管理软件.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\bin\Debug\配方管理软件.pdb
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\配方管理软件.exe
+C:\Users\Administrator\Desktop\C#\王文博软件\wangwenbo\TransferData2\obj\Debug\配方管理软件.pdb

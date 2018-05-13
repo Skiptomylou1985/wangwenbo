@@ -42,5 +42,9 @@
     <pinlenth>2</pinlenth>
     <!--管脚数据字节数-->
     <sizedistance>2</sizedistance>
+    <!--数据单位 0:厘米 1:毫米 2:英寸-->
+    <unit>0</unit>
+    <!--毫米精度-->
+    <accuracy>0.1</accuracy>
   </data>
 </transferdata>
